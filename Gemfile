@@ -40,6 +40,7 @@ gem 'grape'
 gem 'whenever', require: false
 gem 'representable'
 gem 'multi_json'
+gem 'grape-swagger'
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
