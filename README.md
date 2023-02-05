@@ -1,4 +1,4 @@
-# AccuWeather API
+# Weather API
 
 * Ruby 3.2.0
 
