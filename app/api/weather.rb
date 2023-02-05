@@ -15,6 +15,7 @@ class Weather < Grape::API
 
   desc 'Current weather'
   get '/current' do
+    last_day_data.order(datetime: :desc).first
   end
 
   desc 'Server status'
