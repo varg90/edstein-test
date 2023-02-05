@@ -18,11 +18,6 @@ class Weather < Grape::API
     last_day_data.order(datetime: :desc).first
   end
 
-  desc 'Server status'
-  get '/health' do
-    status :ok
-  end
-
   namespace :historical do
     desc 'Hourly temperature for the last day'
     get '/' do
