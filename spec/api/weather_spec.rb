@@ -36,6 +36,9 @@ describe Weather do
   let(:response_body) { JSON.parse(last_response.body).symbolize_keys }
 
   before do
+    allow(Time).to receive(:now).and_return(Time.at(1_675_609_635))
+    allow(Time).to receive(:current).and_return(Time.at(1_675_609_635))
+
     daily_timestamps.each_with_index do |timestamp, index|
       create(:weather_datum, temperature: -10.0 + index, datetime: timestamp)
     end

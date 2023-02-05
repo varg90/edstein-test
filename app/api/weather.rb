@@ -13,23 +13,23 @@ class Weather < Grape::API
 
   desc 'Current weather'
   get '/current' do
-    last_day_data.order(datetime: :desc).first
+    WeatherDatumRepresenter.new(last_day_data.order(datetime: :desc).first)
   end
 
   namespace :historical do
     desc 'Hourly temperature for the last day'
     get '/' do
-      last_day_data.order(:datetime)
+      WeatherDatumRepresenter.for_collection.new(last_day_data.order(:datetime))
     end
 
     desc 'Max temperature for the last day'
     get '/max' do
-      last_day_data.order(temperature: :desc).first
+      WeatherDatumRepresenter.new(last_day_data.order(temperature: :desc).first)
     end
 
     desc 'Min temperature for the last day'
     get '/min' do
-      last_day_data.order(:temperature).first
+      WeatherDatumRepresenter.new(last_day_data.order(:temperature).first)
     end
 
     desc 'Average temperature for the last day'
@@ -42,7 +42,10 @@ class Weather < Grape::API
   get '/by_time' do
     error!('Not found', 404) unless params[:timestamp].present?
 
-    ::WeatherDatum.order(Arel.sql("ABS(datetime - #{params[:timestamp].to_i})"))
-      .first
+    WeatherDatumRepresenter.new(
+      ::WeatherDatum.order(
+        Arel.sql("ABS(datetime - #{params[:timestamp].to_i})")
+      ).first
+    )
   end
 end
