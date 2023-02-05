@@ -7,7 +7,7 @@ class Weather < Grape::API
 
   helpers do
     def last_day_data
-      WeatherDatum.where(
+      ::WeatherDatum.where(
         datetime: ((Time.current - 1.day).to_i..Time.current.to_i)
       )
     end
@@ -48,7 +48,7 @@ class Weather < Grape::API
   get '/by_time' do
     error!('Not found', 404) unless params[:timestamp].present?
 
-    WeatherDatum.order(Arel.sql("ABS(datetime - #{params[:timestamp].to_i})"))
+    ::WeatherDatum.order(Arel.sql("ABS(datetime - #{params[:timestamp].to_i})"))
       .first
   end
 end

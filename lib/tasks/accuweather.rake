@@ -3,7 +3,7 @@ namespace :accuweather do
   task get_historical_data: :environment do
     client = AccuweatherClient.new
     client.get_historical_data.each do |datum|
-      WeatherDatum
+      ::WeatherDatum
         .create_with(temperature: datum.dig('Temperature', 'Metric', 'Value'))
         .find_or_create_by(datetime: datum['EpochTime'])
     end
