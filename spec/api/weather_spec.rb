@@ -33,21 +33,75 @@ describe Weather do
       1_675_609_635
     ]
   end
+  let(:response_body) { JSON.parse(last_response.body).symbolize_keys }
 
   before do
     daily_timestamps.each_with_index do |timestamp, index|
-      create(:weather_datum, temperature: -10 + index, datetime: timestamp)
+      create(:weather_datum, temperature: -10.0 + index, datetime: timestamp)
     end
   end
 
   context 'GET /weather/current' do
-    it 'returns an empty array of statuses' do
+    it 'returns a current weather' do
       get '/weather/current'
       expect(last_response.status).to eq(200)
-      expect(JSON.parse(last_response.body).symbolize_keys).to include(
+      expect(response_body).to include(
         temperature: 13.0,
         datetime: 1_675_609_635
       )
     end
+  end
+
+  context 'GET /weather/historical' do
+    it 'returns historical temperature for the last 24 hours' do
+      get '/weather/historical'
+      expect(last_response.status).to eq(200)
+      expect(JSON.parse(last_response.body).size).to eq 24
+    end
+  end
+
+  context 'GET /weather/historical/max' do
+    it 'returns a maximum temperature for the last 24 hours' do
+      get '/weather/historical/max'
+      expect(last_response.status).to eq(200)
+      expect(response_body).to include(
+        temperature: 13.0,
+        datetime: 1_675_609_635
+      )
+    end
+  end
+
+  context 'GET /weather/historical/min' do
+    it 'returns a minimum temperature for the last 24 hours' do
+      get '/weather/historical/min'
+      expect(last_response.status).to eq(200)
+      expect(response_body).to include(
+        temperature: -10.0,
+        datetime: 1_675_526_835
+      )
+    end
+  end
+
+  context 'GET /weather/historical/avg' do
+    it 'returns an average temperature for the last 24 hours' do
+      get '/weather/historical/avg'
+      expect(last_response.status).to eq(200)
+      expect(JSON.parse(last_response.body)).to eq 1.5
+    end
+  end
+
+  context 'GET /weather/by_time'
+  it 'returns a temperature for the closest to a specified timestamp' do
+    get '/weather/by_time?timestamp=1675619635'
+    expect(last_response.status).to eq(200)
+    expect(response_body).to include(temperature: 13.0, datetime: 1_675_609_635)
+  end
+  it 'returns not_found if the timestamp is empty' do
+    get '/weather/by_time?timestamp='
+    expect(last_response.status).to eq(404)
+  end
+  it 'returns bad_request if the timestamp param was not provided' do
+    get '/weather/by_time'
+    expect(last_response.status).to eq(400)
   end
 end

@@ -1,8 +1,6 @@
 class Weather < Grape::API
   format :json
 
-  rescue_from :all
-
   prefix 'weather'
 
   helpers do

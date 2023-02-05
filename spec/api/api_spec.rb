@@ -6,7 +6,7 @@ describe Weather do
   end
 
   context 'GET /health' do
-    it 'returns 200' do
+    it 'returns the server health status' do
       get '/health'
       expect(last_response.status).to eq(200)
     end
