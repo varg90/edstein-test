@@ -1,24 +1,19 @@
-# README
+# AccuWeather API
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+* Ruby 3.2.0
 
-Things you may want to cover:
+* Rails 7.0.4.2
 
-* Ruby version
+* PostgreSQL 14.6
 
-* System dependencies
+* macOS 12.6.3
 
-* Configuration
 
-* Database creation
 
-* Database initialization
+* Make sure to define env variables: `ACCUWEATHER_API_URL`, `ACCUWEATHER_API_KEY` and `ACCUWEATHER_LOCATION_KEY`
 
-* How to run the test suite
+* Do the setup `bundle` && `bundle exec rails db:setup`
 
-* Services (job queues, cache servers, search engines, etc.)
+* Run the server `bundle exec rails s`
 
-* Deployment instructions
-
-* ...
+* Basic API Docs are available at `http://localhost:3000/swagger_doc`: use preferable UI to read that, for example [rswag-ui](https://rubygems.org/gems/rswag-ui)
