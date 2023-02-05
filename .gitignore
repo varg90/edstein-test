@@ -32,3 +32,4 @@
 .idea
 /config/database.yml
 .env.development.local
+.env.test.local
