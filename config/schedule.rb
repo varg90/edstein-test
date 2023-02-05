@@ -19,6 +19,6 @@
 
 # Learn more: http://github.com/javan/whenever
 
-every :day do
+every :hour do
   rake 'accuweather:get_historical_data'
 end
