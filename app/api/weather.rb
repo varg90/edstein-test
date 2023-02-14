@@ -13,7 +13,12 @@ class Weather < Grape::API
 
   desc 'Current weather'
   get '/current' do
-    WeatherDatumRepresenter.new(last_day_data.order(datetime: :desc).first)
+    datum = AccuweatherClient.new.get_current_conditions
+    error!('Not found', 404) unless datum.present? && datum.any?
+
+    WeatherDatumRepresenter.new(
+      WeatherDatum.new(AccuweatherDataFormatter.format(datum.first))
+    )
   end
 
   namespace :historical do
