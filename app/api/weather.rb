@@ -5,9 +5,16 @@ class Weather < Grape::API
 
   helpers do
     def last_day_data
-      ::WeatherDatum.where(
+      @data ||= ::WeatherDatum.where(
         datetime: ((Time.current - 1.day).to_i..Time.current.to_i)
       )
+
+      if @data.size < 24
+        Rake::Task['accuweather:get_historical_data'].invoke
+        @data.reload
+      end
+
+      @data
     end
   end
 
